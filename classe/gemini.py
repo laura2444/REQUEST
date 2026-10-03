@@ -1,14 +1,11 @@
 from google import genai
-from PIL import Image
 import os
 from docx import Document
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from io import BytesIO
 from dotenv import load_dotenv
-import PyPDF2
 from pdfminer.high_level import extract_text as pdfminer_extract_text
-from google.genai import types
 
 load_dotenv(override=True)
 
