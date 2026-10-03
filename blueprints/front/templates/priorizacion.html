@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReQuest</title>
+  <!-- Preconnect para fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Importación de fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .box-sizing-border { box-sizing: border-box; }
+  </style>
+
+</head>
+<body class="bg-[#09090F] text-[#FFFFFF]">
+  <!-- Contenedor principal -->
+  <div class="flex flex-col items-center p-4 box-sizing-border w-full">
+
+  <!-- Encabezado -->
+  <div class="flex flex-col items-center w-full p-4">
+    <div class="shadow-md rounded-3xl bg-[rgba(11,11,17,0.914)] mb-12 flex flex-row justify-between p-4 md:p-6 lg:w-3/4 w-full">
+      
+    <!-- Logo y título -->
+    <div class="flex flex-row items-center">
+      <div class="rounded-[10px] bg-[url('{{ url_for('static', filename='uploads/logo.png') }}')] bg-[50%_50%] bg-cover bg-no-repeat w-[101px] h-[94px] ml-4"></div>
+      <div class="inline-block font-['Oleo_Script'] text-2xl md:text-3xl text-white">ReQuest</div>
+    </div>
+
+      
+      <!-- Menú de navegación -->
+      <!-- Menú de navegación responsive -->
+    <div class="flex flex-col md:flex-row justify-between items-center w-full max-w-lg relative">
+      <!-- Botón hamburguesa (solo en móvil) -->
+      <button id="menuButton" class="md:hidden text-white text-3xl p-2 focus:outline-none">
+        <i class='bx bx-menu'></i>
+      </button>
+
+      <!-- Links del menú -->
+      <div id="navLinks" class="flex flex-col md:flex-row md:space-x-4 mt-2 md:mt-0 hidden md:flex">
+        <a href="/" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'home' in request.path and 'bg-white text-black rounded-full' or '' }}">Inicio</a>
+        <a href="HU_imagen" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'HU_imagen' in request.path and 'bg-white text-black rounded-full' or '' }}">HU</a>
+        <a href="clasificacion" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'clasificacion' in request.path and 'bg-white text-black rounded-full' or '' }}">Clasificación</a>
+        <a href="priorizacion" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'priorizacion' in request.path and 'bg-white text-black rounded-full' or '' }}">Priorización</a>
+      </div>
+    </div>
+
+    <script>
+      const menuButton = document.getElementById('menuButton');
+      const navLinks = document.getElementById('navLinks');
+
+      menuButton.addEventListener('click', () => {
+        navLinks.classList.toggle('hidden');
+      });
+    </script>
+
+    </div>
+  </div>
+
+
+    <span class="font-normal text-purple-500">Carga tus requisitos en formato txt, word o pdf de requisitos para priorizarlos</span>
+
+    <!-- Contenido principal -->
+    <div class="flex flex-col items-center w-full box-sizing-border p-4">
+      <!-- Modal de mensajes -->
+      <div id="messageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+          <div class="flex items-center gap-4">
+            <span class="icon bg-blue-500 text-white rounded-full p-2">
+              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path clip-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" fill-rule="evenodd"></path>
+              </svg>
+            </span>
+            <p class="alert font-semibold text-gray-700">Nuevo mensaje</p>
+          </div>
+          <p id="messageContent" class="message mt-4 text-gray-700"></p>
+          <div class="actions mt-6 flex justify-end">
+            <button id="closeModal" class="bg-blue-600 text-white rounded-md py-2 px-4 font-semibold hover:bg-blue-700 transition duration-150 ease-in-out">Cerrar</button>
+          </div>
+        </div>
+      </div>
+
+    <form method="POST" enctype="multipart/form-data" class="flex flex-col items-center justify-center w-full">
+        {{ form.hidden_tag() }}
+        <!-- Sección de subida de archivo -->
+        <label for="fileUpload" class="cursor-pointer flex flex-col items-center justify-center h-[200px] w-[300px] gap-5 p-6 border-2 border-dashed border-purple-500 bg-gray-800 rounded-lg shadow-[0px_48px_35px_-48px_rgba(128,90,213,0.7)]">
+            <div class="flex items-center justify-center">
+                <svg class="h-[80px] fill-purple-500" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z" fill=""></path> </g></svg>
+            </div>
+            <div class="flex items-center justify-center">
+                <span class="font-normal text-purple-500">Haz click para subir el archivo</span>
+            </div>
+            {{ form.file(class="hidden", id="fileUpload") }}
+        </label>
+    
+        <!-- Mostrar nombre del archivo -->
+        <div id="fileName" class="mt-4 text-center font-['Inter'] text-[16px] text-[#C1C1C1] hidden"></div>
+    
+        <!-- Sección de descripción -->
+        {{ form.description(class="mt-4 p-2 w-full md:w-3/4 bg-gray-800 text-white border border-purple-500 rounded-lg", placeholder="Proporcione una breve descripción de su solicitud...") }}
+        <!-- Botón de envío -->
+        {{ form.submit(class="overflow-hidden relative w-32 p-2 h-12 bg-black text-white border-none rounded-md text-xl font-bold cursor-pointer relative z-10 group mt-4 hover:bg-purple-600 transform hover:scale-105 transition-transform duration-300") }}
+    </form>
+
+  <!-- Loader -->
+  <div id="loader" class="animate-pulse flex flex-col items-center gap-4 w-60 hidden mt-4"> <!-- Agregar mt-4 para el margen superior -->
+    <div>
+      <div class="w-48 h-6 bg-slate-400 rounded-md"></div>
+      <div class="w-28 h-4 bg-slate-400 mx-auto mt-3 rounded-md"></div>
+    </div>
+    <div class="h-7 bg-slate-400 w-full rounded-md"></div>
+    <div class="h-7 bg-slate-400 w-full rounded-md"></div>
+    <div class="h-7 bg-slate-400 w-full rounded-md"></div>
+    <div class="h-7 bg-slate-400 w-1/2 rounded-md"></div>
+  </div>
+
+    
+    <!-- Sección para mostrar las historias de usuario generadas -->
+          {% if textos %}
+    <div class="mt-8 w-full md:w-5/6 lg:w-3/4">
+
+      <!-- Título -->
+      <div class="mb-6 text-center">
+        <h2 class="text-2xl md:text-3xl font-semibold text-white">Priorización generada</h2>
+        <p class="text-gray-400 mt-2">Del requisito más importante al menos importante</p>
+      </div>
+
+      <!-- Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for historia in textos %}
+          {# Limpia asteriscos de Markdown y el "1. " del inicio #}
+          {% set limpio = historia.replace('**', '').strip() %}
+          {% if limpio[0:1].isdigit() and '.' in limpio[0:4] %}
+            {% set limpio = limpio.split('.', 1)[1].strip() %}
+          {% endif %}
+
+          <div class="bg-[#11111A] border {{ 'border-amber-400/70' if loop.index <= 3 else 'border-purple-500/50' }}
+                      rounded-xl p-5 hover:border-purple-400 hover:bg-[#161622]
+                      transition duration-300 shadow-lg">
+
+            <div class="flex items-center gap-3 mb-3">
+              <div class="flex items-center justify-center w-8 h-8 rounded-full
+                          {{ 'bg-amber-500' if loop.index <= 3 else 'bg-purple-600' }}
+                          text-white font-bold">
+                {{ loop.index }}
+              </div>
+              <h3 class="text-lg font-semibold {{ 'text-amber-400' if loop.index <= 3 else 'text-purple-400' }}">
+                {{ 'Prioridad alta' if loop.index <= 3 else 'Prioridad' }}
+              </h3>
+            </div>
+
+            <p class="text-gray-200 leading-relaxed">{{ limpio }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Botones de descarga -->
+      <div class="flex flex-wrap justify-center gap-4 mt-8">
+        {% for fmt, label in [('word', 'Word'), ('pdf', 'PDF'), ('txt', 'TXT')] %}
+        <a href="{{ url_for('home.download_document', format=fmt) }}"
+           class="cursor-pointer transition-all bg-gray-700 text-white px-6 py-2 rounded-lg
+                  border-purple-400 border-b-[4px]
+                  hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px]
+                  active:border-b-[2px] active:brightness-90 active:translate-y-[2px]
+                  hover:shadow-xl hover:shadow-purple-300"
+           title="Descargar en formato {{ label }}">
+          {{ label }}
+        </a>
+        {% endfor %}
+      </div>
+
+    </div>
+    {% endif %}
+
+  </div>
+  
+  <script>
+  const fileInput = document.getElementById('fileUpload');
+  const fileNameDiv = document.getElementById('fileName');
+  const loader = document.getElementById('loader');
+
+  fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    fileNameDiv.textContent = file.name;
+    fileNameDiv.classList.remove('hidden');
+  });
+
+  // El loader se muestra al enviar, no al elegir el archivo
+  document.querySelector('form').addEventListener('submit', () => {
+    loader.classList.remove('hidden');
+  });
+</script>
+    
+
+</body>
+</html>

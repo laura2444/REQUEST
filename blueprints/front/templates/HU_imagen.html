@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReQuest</title>
+  <!-- Preconnect para fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Importación de fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.0/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    .box-sizing-border { box-sizing: border-box; }
+  </style>
+
+</head>
+<body class="bg-[#09090F] text-[#FFFFFF]">
+  <!-- Contenedor principal -->
+  <div class="flex flex-col items-center p-4 box-sizing-border w-full">
+
+  <!-- Encabezado -->
+  <div class="flex flex-col items-center w-full p-4">
+    <div class="shadow-md rounded-3xl bg-[rgba(11,11,17,0.914)] mb-12 flex flex-row justify-between p-4 md:p-6 lg:w-3/4 w-full">
+      
+    <!-- Logo y título -->
+    <div class="flex flex-row items-center">
+      <div class="rounded-[10px] bg-[url('{{ url_for('static', filename='uploads/logo.png') }}')] bg-[50%_50%] bg-cover bg-no-repeat w-[101px] h-[94px] ml-4"></div>
+      <div class="inline-block font-['Oleo_Script'] text-2xl md:text-3xl text-white">ReQuest</div>
+    </div>
+
+      
+      <!-- Menú de navegación -->
+<!-- Menú de navegación responsive -->
+    <div class="flex flex-col md:flex-row justify-between items-center w-full max-w-lg relative">
+      <!-- Botón hamburguesa (solo en móvil) -->
+      <button id="menuButton" class="md:hidden text-white text-3xl p-2 focus:outline-none">
+        <i class='bx bx-menu'></i>
+      </button>
+
+      <!-- Links del menú -->
+      <div id="navLinks" class="flex flex-col md:flex-row md:space-x-4 mt-2 md:mt-0 hidden md:flex">
+        <a href="/" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'home' in request.path and 'bg-white text-black rounded-full' or '' }}">Inicio</a>
+        <a href="HU_imagen" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'HU_imagen' in request.path and 'bg-white text-black rounded-full' or '' }}">HU</a>
+        <a href="clasificacion" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'clasificacion' in request.path and 'bg-white text-black rounded-full' or '' }}">Clasificación</a>
+        <a href="priorizacion" class="break-words font-['Montserrat'] font-medium text-[18px] text-[#C1C1C1] px-4 py-2 rounded hover:bg-purple-600 hover:text-white {{ 'priorizacion' in request.path and 'bg-white text-black rounded-full' or '' }}">Priorización</a>
+      </div>
+    </div>
+
+    <script>
+      const menuButton = document.getElementById('menuButton');
+      const navLinks = document.getElementById('navLinks');
+
+      menuButton.addEventListener('click', () => {
+        navLinks.classList.toggle('hidden');
+      });
+    </script>
+
+    </div>
+  </div>
+
+
+    <span class="font-normal text-purple-500">Has la descripción  de tu producto, se generarán historias de usuario</span>
+
+    <!-- Contenido principal -->
+    <div class="flex flex-col items-center w-full box-sizing-border p-4">
+      <!-- Modal de mensajes -->
+      <div id="messageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+          <div class="flex items-center gap-4">
+            <span class="icon bg-blue-500 text-white rounded-full p-2">
+              <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path clip-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" fill-rule="evenodd"></path>
+              </svg>
+            </span>
+            <p class="alert font-semibold text-gray-700">Nuevo mensaje</p>
+          </div>
+          <p id="messageContent" class="message mt-4 text-gray-700"></p>
+          <div class="actions mt-6 flex justify-end">
+            <button id="closeModal" class="bg-blue-600 text-white rounded-md py-2 px-4 font-semibold hover:bg-blue-700 transition duration-150 ease-in-out">Cerrar</button>
+          </div>
+        </div>
+      </div>
+
+
+      <form method="POST" class="flex flex-col items-center justify-center w-full">
+        {{ form.hidden_tag() }}
+        {{ form.description(class="mt-4 p-2 w-full md:w-3/4 bg-gray-800 text-white border border-purple-500 rounded-lg", placeholder="Proporcione una breve descripción de su solicitud...") }}
+        {{ form.submit(class="overflow-hidden relative w-32 p-2 h-12 bg-black text-white rounded-md text-xl font-bold cursor-pointer mt-4 hover:bg-purple-600") }}
+      </form>
+
+
+    <!-- Loader -->
+    <div id="loader" class="animate-pulse flex flex-col items-center gap-4 w-60 hidden mt-4"> <!-- Agregar mt-4 para el margen superior -->
+      <div>
+        <div class="w-48 h-6 bg-slate-400 rounded-md"></div>
+        <div class="w-28 h-4 bg-slate-400 mx-auto mt-3 rounded-md"></div>
+      </div>
+      <div class="h-7 bg-slate-400 w-full rounded-md"></div>
+      <div class="h-7 bg-slate-400 w-full rounded-md"></div>
+      <div class="h-7 bg-slate-400 w-full rounded-md"></div>
+      <div class="h-7 bg-slate-400 w-1/2 rounded-md"></div>
+    </div>
+    
+      <!-- Sección para mostrar las historias de usuario generadas -->
+       <!-- Sección para mostrar las historias de usuario generadas -->
+      {% if textos %}
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    {% for historia in textos %}
+        <div class="bg-[#11111A] border border-purple-500/50 rounded-xl p-5 
+                hover:border-purple-400 hover:bg-[#161622] 
+                        transition duration-300 shadow-lg">
+
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="flex items-center justify-center w-8 h-8 
+                                rounded-full bg-purple-600 text-white font-bold">
+                        {{ loop.index }}
+                    </div>
+
+                    <h3 class="text-lg font-semibold text-purple-400">
+                        Historia de Usuario
+                    </h3>
+                </div>
+
+                <p class="text-gray-200 leading-relaxed">
+                    {{ historia }}
+                </p>
+
+            </div>
+            {% endfor %}
+        </div>
+          <!-- Botones de descarga solo aparecen si hay textos -->
+          <div class="flex justify-center space-x-4 mt-4">
+                  <a href="{{ url_for('home.download_document', format='word') }}" 
+                  class="cursor-pointer transition-all bg-gray-700 text-white px-6 py-2 rounded-lg border-purple-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-purple-300"
+                  title="Descargar en formato Word">
+                      <p>word</p>
+                  </a>
+                  <a href="{{ url_for('home.download_document', format='pdf') }}" 
+                  class="cursor-pointer transition-all bg-gray-700 text-white px-6 py-2 rounded-lg border-purple-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-purple-300"
+                  title="Descargar en formato PDF">
+                      <p>pdf</p>
+                  </a>
+                  <a href="{{ url_for('home.download_document', format='txt') }}" 
+                  class="cursor-pointer transition-all bg-gray-700 text-white px-6 py-2 rounded-lg border-purple-400 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] hover:shadow-xl hover:shadow-purple-300"
+                  title="Descargar en formato TXT">
+                      <p>txd</p>
+                  </a>
+          </div>
+      </div>
+      {% endif %}
+
+
+
+
+  </div>
+
+  <script>
+    // Función para mostrar el loader
+    function showLoader() {
+      document.getElementById('loader').classList.remove('hidden');
+    }
+  
+    // Función para ocultar el loader
+    function hideLoader() {
+      document.getElementById('loader').classList.add('hidden');
+    }
+  
+    document.getElementById('file').onchange = function(event) {
+      showLoader(); // Mostrar el loader al seleccionar un archivo
+      const file = event.target.files[0];
+      const reader = new FileReader();
+  
+      reader.onload = function(e) {
+          const filePreview = document.getElementById('filePreview');
+          const previewContainer = document.getElementById('previewContainer');
+          filePreview.innerHTML = ''; // Limpiar contenido previo
+  
+          if (file.type.startsWith('image/')) {
+              const img = document.createElement('img');
+              img.src = e.target.result;
+              img.alt = 'Vista previa de la imagen';
+              img.classList.add('max-w-full', 'h-auto', 'rounded-lg');
+              filePreview.appendChild(img);
+          } else if (file.type === 'application/pdf' || file.name.endsWith('.docx')) {
+              const p = document.createElement('p');
+              p.textContent = `${file.name}`;
+              filePreview.appendChild(p);
+          } else {
+              const p = document.createElement('p');
+              p.textContent = 'Tipo de archivo no soportado para vista previa.';
+              filePreview.appendChild(p);
+          }
+  
+          previewContainer.classList.remove('hidden');
+          hideLoader(); // Ocultar el loader después de cargar el archivo
+      };
+  
+      if (file.type.startsWith('image/') || file.type === 'application/pdf') {
+          reader.readAsDataURL(file);
+      } else {
+          reader.readAsText(file);
+      }
+    };
+  
+    document.getElementById('closeModal').onclick = function() {
+      const modal = document.getElementById('messageModal');
+      modal.classList.add('hidden');
+    }
+  
+    function confirmSubmission(event) {
+      // Lógica para mostrar la ventana emergente de confirmación
+      const confirmationModal = document.getElementById('confirmationModal');
+      confirmationModal.classList.remove('hidden');
+      // Evitar que el formulario se envíe automáticamente
+      event.preventDefault();
+      return false;
+    }
+  
+    // Asignar el evento clic al botón de confirmar
+    document.getElementById('confirmButton').onclick = function() {
+      // Enviar el formulario si se confirma
+      document.querySelector('form').submit();
+    }
+  
+    // Asignar el evento clic al botón de cancelar
+    document.getElementById('cancelButton').onclick = function() {
+      // Ocultar la ventana emergente de confirmación si se cancela
+      const confirmationModal = document.getElementById('confirmationModal');
+      confirmationModal.classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>

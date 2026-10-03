@@ -1,0 +1,21 @@
+<svg width="40" height="36" viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<path d="M37.923,3.317C37.743,3.177 37.534,3.08 37.311,3.033C37.088,2.986 36.857,2.99 36.636,3.045L25.174,5.91L13.671,0.158C13.351,-0.002 12.984,-0.042 12.636,0.045L0.636,3.045C0.312,3.126 0.024,3.314 -0.182,3.577C-0.388,3.841 -0.5,4.166 -0.5,4.5L-0.5,31.5C-0.5,31.728 -0.448,31.953 -0.348,32.158C-0.248,32.363 -0.103,32.542 0.077,32.682C0.257,32.823 0.466,32.92 0.689,32.967C0.912,33.015 1.143,33.01 1.364,32.955L12.826,30.09L24.329,35.843C24.538,35.946 24.767,36 25,36C25.123,36 25.245,35.985 25.364,35.955L37.364,32.955C37.688,32.874 37.976,32.687 38.182,32.423C38.388,32.16 38.5,31.835 38.5,31.5L38.5,4.5C38.5,4.272 38.448,4.047 38.348,3.842C38.248,3.637 38.102,3.457 37.923,3.317ZM14.5,3.926L23.5,8.426L23.5,32.074L14.5,27.574L14.5,3.926ZM2.5,5.672L11.5,3.422L11.5,27.328L2.5,29.578L2.5,5.672ZM35.5,30.328L26.5,32.578L26.5,8.672L35.5,6.422L35.5,30.328Z" fill="#94989E"/>
+</svg>
+
+<a href="tu_pagina_destino" class="relative flex w-80 flex-col rounded-xl bg-[#F0F0F0] bg-clip-border text-gray-700 shadow-md">
+  <div class="relative mx-4 -mt-6 h-40 overflow-hidden rounded-xl bg-[#9238FF] bg-clip-border text-white shadow-lg shadow-[#9238FF] bg-gradient-to-r from-[#9238FF] to-[#462399]">
+  </div>
+  <div class="p-6">
+    <h5 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-[#9238FF] antialiased">
+     Tailwind card
+    </h5>
+    <p class="block font-sans text-base font-light leading-relaxed text-inherit antialiased">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc felis ligula. 
+    </p>
+  </div>
+  <div class="p-6 pt-0">
+    <button data-ripple-light="true" type="button" class="select-none rounded-lg bg-[#9238FF] py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-[#9238FF]/20 transition-all hover:shadow-lg hover:shadow-[#9238FF]/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+      Read More
+    </button>
+  </div>
+</a>

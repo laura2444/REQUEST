@@ -1,0 +1,13 @@
+Aquí tienes 5 requisitos funcionales y 5 no funcionales, en lenguaje natural, basados en la descripción del usuario:
+**Requisitos Funcionales:**
+1.  **El sistema** debe permitir **al usuario** aplicar **múltiples filtros** a la búsqueda.
+2.  **El usuario** debe poder **remover un filtro individual** o **todos los filtros aplicados** a la búsqueda.
+3.  **El sistema** debe presentar **una interfaz clara** para la **selección y aplicación** de filtros.
+4.  **El sistema** debe generar **un reporte** que contenga **únicamente los datos** correspondientes a los filtros activos.
+5.  **La aplicación** debe proveer **al usuario** una forma visible de **visualizar los filtros** que están actualmente activos.
+**Requisitos No Funcionales:**
+1.  **El sistema** debe responder **a la aplicación de filtros** en **un tiempo máximo de 2 segundos**.
+2.  **La interfaz de usuario** debe ser **accesible** para usuarios con **discapacidades visuales**, siguiendo **las pautas WCAG 2.1 AA**.
+3.  **El reporte generado** debe ser **exportable** en **formato PDF y CSV**.
+4.  **El sistema** debe manejar **un volumen de hasta 10,000 búsquedas concurrentes** sin degradar **el rendimiento general**.
+5.  **Los datos** que alimentan **el sistema** deben estar **encriptados** para garantizar **la seguridad y confidencialidad**.

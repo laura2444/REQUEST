@@ -1,0 +1,6 @@
+Como usuario final, quiero verificar que la silla soporte un peso máximo de 200 kg, para usarla con total seguridad y confianza.
+Como comprador, quiero seleccionar el color amarillo para la silla, para integrarla adecuadamente a la decoración de mi hogar.
+Como usuario final, quiero utilizar la función mecedora de la silla, para lograr un descanso cómodo y relajante.
+Como cliente, quiero revisar las especificaciones de resistencia y color en la etiqueta del producto, para asegurarme de adquirir el modelo adecuado.
+Como usuario de hasta 200 kg, quiero contar con un asiento reforzado en la silla, para evitar deformaciones o accidentes al sentarme.
+Como comprador, quiero adquirir una silla mecedora de color amarillo, para tener un mueble vistoso y de alta durabilidad en mi espacio.
